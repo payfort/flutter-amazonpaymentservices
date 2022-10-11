@@ -1,0 +1,3 @@
+enum EnvironmentType {
+  sandbox, production
+}
