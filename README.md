@@ -7,7 +7,7 @@ Amazon Payment Service Sdk Flutter package
 Add below lines to your package’s pubspec.yaml file:
 
 ```
-dependencies: flutter_amazonpaymentservices: 0.0.2
+dependencies: flutter_amazonpaymentservices: 0.0.3
 ```
 <br>
 
