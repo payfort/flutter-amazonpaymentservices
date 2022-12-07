@@ -41,6 +41,7 @@ import io.flutter.plugin.common.PluginRegistry;
  */
 public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
     private static final String METHOD_CHANNEL_KEY = "flutter_amazonpaymentservices";
+    private static final int PAYFORT_REQUEST_CODE = 1166;
     static FortCallBackManager fortCallback;
     private MethodChannel methodChannel;
     private static Activity activity;
@@ -61,6 +62,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
         channel.setMethodCallHandler(handler);
 
         registrar.addActivityResultListener((requestCode, resultCode, data) -> {
+            if(requestCode==PAYFORT_REQUEST_CODE)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
@@ -95,6 +97,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
+            if(requestCode==PAYFORT_REQUEST_CODE)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
@@ -109,6 +112,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
+            if(requestCode==PAYFORT_REQUEST_CODE)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
@@ -165,7 +169,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
 
             if (fortCallback == null)
                 fortCallback = FortCallback.Factory.create();
-            FortSdk.getInstance().registerCallback(activity, fortRequest, mEnvironment.getSdkEnvironemt(), 5, fortCallback, true, new FortInterfaces.OnTnxProcessed() {
+            FortSdk.getInstance().registerCallback(activity, fortRequest, mEnvironment.getSdkEnvironemt(), PAYFORT_REQUEST_CODE, fortCallback, true, new FortInterfaces.OnTnxProcessed() {
                 @Override
                 public void onCancel(Map<String, Object> requestParamsMap, Map<String, Object> responseMap) {
                     result.error("onCancel", "onCancel", responseMap);
