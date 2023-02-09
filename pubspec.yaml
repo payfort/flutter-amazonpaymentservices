@@ -1,6 +1,6 @@
 name: flutter_amazonpaymentservices
 description: Flutter package for Amazon Payment Services native mobile SDKs 
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/payfort/flutter-amazonpaymentservices
 
 environment:
