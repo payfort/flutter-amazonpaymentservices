@@ -1,4 +1,4 @@
-##0.0.4
+##0.0.5
 
 Fix - App crash after return button is clicked in Android is fixed
 
