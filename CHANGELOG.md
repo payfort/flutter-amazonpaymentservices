@@ -1,6 +1,10 @@
-##0.0.4
+##0.0.5
 
 Fix - App crash after return button is clicked in Android is fixed
+
+##0.0.4
+
+Fix - proguard files are added for android release mode
 
 ##0.0.3
 

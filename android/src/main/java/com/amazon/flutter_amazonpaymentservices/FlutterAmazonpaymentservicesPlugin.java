@@ -62,7 +62,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
         channel.setMethodCallHandler(handler);
 
         registrar.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE)
+            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
@@ -97,7 +97,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE)
+            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
@@ -112,7 +112,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE)
+            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
             fortCallback.onActivityResult(requestCode, resultCode, data);
             return true;
         });
