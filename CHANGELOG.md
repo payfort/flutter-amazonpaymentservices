@@ -1,3 +1,7 @@
+##0.0.6
+
+Fix - Return button event is handled for Android
+
 ##0.0.5
 
 Fix - App crash after return button is clicked in Android is fixed

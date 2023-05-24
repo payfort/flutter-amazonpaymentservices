@@ -1,5 +1,6 @@
 package com.amazon.flutter_amazonpaymentservices;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
 
 import androidx.annotation.NonNull;
 
@@ -62,8 +64,14 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
         channel.setMethodCallHandler(handler);
 
         registrar.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
-            fortCallback.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == PAYFORT_REQUEST_CODE )
+                if(data!=null && resultCode == RESULT_OK)
+                    fortCallback.onActivityResult(requestCode, resultCode, data);
+                else{
+                    Intent intent = new Intent();
+                    intent.putExtra("","");
+                    fortCallback.onActivityResult(requestCode, resultCode, intent);
+                }
             return true;
         });
 
@@ -97,23 +105,36 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
-            fortCallback.onActivityResult(requestCode, resultCode, data);
-            return true;
-        });
+            if (requestCode == PAYFORT_REQUEST_CODE )
+                if(data!=null && resultCode == RESULT_OK)
+                fortCallback.onActivityResult(requestCode, resultCode, data);
+                else{
+                    Intent intent = new Intent();
+                    intent.putExtra("","");
+                    fortCallback.onActivityResult(requestCode, resultCode, intent);
+                }
+                return true;
+            });
 
     }
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
+        methodChannel.setMethodCallHandler(null);
     }
 
     @Override
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
         binding.addActivityResultListener((requestCode, resultCode, data) -> {
-            if(requestCode==PAYFORT_REQUEST_CODE && resultCode == RESULT_OK && data!=null)
-            fortCallback.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == PAYFORT_REQUEST_CODE )
+                if(data!=null && resultCode == RESULT_OK)
+                    fortCallback.onActivityResult(requestCode, resultCode, data);
+                else{
+                    Intent intent = new Intent();
+                    intent.putExtra("","");
+                    fortCallback.onActivityResult(requestCode, resultCode, intent);
+                }
             return true;
         });
 
@@ -186,7 +207,9 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            HashMap<Object, Object> errorDetails = new HashMap<>();
+            errorDetails.put("response_message", e.getMessage());
+            result.error("onFailure", "onFailure", errorDetails);
         }
     }
 
