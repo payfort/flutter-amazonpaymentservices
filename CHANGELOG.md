@@ -1,3 +1,7 @@
+##0.0.7
+
+Fix - Build config version bump for APS Android SDK v2.1.1
+
 ##0.0.6
 
 Fix - Return button event is handled for Android
