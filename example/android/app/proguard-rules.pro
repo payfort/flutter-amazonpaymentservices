@@ -60,11 +60,15 @@
 -dontwarn javax.annotation.**
 # A resource is loaded with a relative path so the package of this class must be preserved.
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-keepnames class * implements java.io.Serializable
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
+     private static final java.io.ObjectStreamField[] serialPersistentFields;
     !static !transient <fields>;
     private void writeObject(java.io.ObjectOutputStream);
     private void readObject(java.io.ObjectInputStream);
+     java.lang.Object writeReplace();
+        java.lang.Object readResolve();
 }
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
@@ -253,3 +257,5 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
+-keep interface com.payfort.fortpaymentsdk.** {*;}
+-keep class  com.payfort.fortpaymentsdk.** {*;}
