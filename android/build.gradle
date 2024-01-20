@@ -4,7 +4,7 @@ version '1.0'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://android-sdk.payfort.com" }
 
     }
@@ -17,7 +17,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://android-sdk.payfort.com" }
 
     }
@@ -26,7 +26,6 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -38,7 +37,7 @@ android {
     }
     dependencies {
 
-        implementation('com.amazon:fortpayment:+:release@aar') {
+        implementation('com.amazon:fortpayment:2.1.0:release@aar') {
             transitive = true
         }
     }
