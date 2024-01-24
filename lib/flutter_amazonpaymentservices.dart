@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'environment_type.dart';
@@ -28,7 +27,7 @@ class FlutterAmazonpaymentservices {
     final LinkedHashMap<Object?, Object?> result =
     await _channel.invokeMethod("normalPay", {
       "isShowResponsePage": isShowResponsePage,
-      "environmentType": describeEnum(environmentType),
+      "environmentType": environmentType.name,
       "requestParam": request,
     });
     return result;
@@ -40,7 +39,7 @@ class FlutterAmazonpaymentservices {
       ) async {
     final LinkedHashMap<Object?, Object?> result = await _channel.invokeMethod(
         "validateApi", {
-      "environmentType": describeEnum(environmentType),
+      "environmentType": environmentType.name,
       "requestParam": request
     });
     return result;
