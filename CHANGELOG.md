@@ -1,3 +1,7 @@
+##0.0.8
+
+Fix - Build config version bump for APS Android SDK v2.2.1
+
 ##0.0.7
 
 Fix - Build config version bump for APS Android SDK v2.1.1
