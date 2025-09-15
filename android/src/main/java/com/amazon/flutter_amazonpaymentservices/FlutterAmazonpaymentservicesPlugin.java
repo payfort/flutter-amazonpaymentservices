@@ -55,6 +55,28 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
 
     }
 
+    // This piece of code is deprecated/removed in newer versions and
+    // onAttachedToActivity is now doing the same work this method was doing
+//    public static void registerWith(PluginRegistry.Registrar registrar) {
+//        final MethodChannel channel = new MethodChannel(registrar.messenger(), METHOD_CHANNEL_KEY);
+//        FlutterAmazonpaymentservicesPlugin handler = new FlutterAmazonpaymentservicesPlugin();
+//        handler.methodChannel = channel;
+//        activity = registrar.activity();
+//        channel.setMethodCallHandler(handler);
+//
+//        registrar.addActivityResultListener((requestCode, resultCode, data) -> {
+//            if (requestCode == PAYFORT_REQUEST_CODE )
+//                if(data!=null && resultCode == RESULT_OK)
+//                    fortCallback.onActivityResult(requestCode, resultCode, data);
+//                else{
+//                    Intent intent = new Intent();
+//                    intent.putExtra("","");
+//                    fortCallback.onActivityResult(requestCode, resultCode, intent);
+//                }
+//            return true;
+//        });
+//    }
+
     @Override
     public void onMethodCall(MethodCall call, Result result) {
         switch (call.method) {
