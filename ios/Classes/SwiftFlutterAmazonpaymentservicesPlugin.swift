@@ -91,7 +91,7 @@ public class SwiftFlutterAmazonpaymentservicesPlugin: NSObject, FlutterPlugin {
           return
       }
 
-      if let enviroment = requestParam["environmentType"], enviroment as! String == "production" {
+      if let enviroment = args["environmentType"], enviroment as! String == "production" {
         payFortController = PayFortController.init(enviroment: .production)
       }
 
