@@ -1,3 +1,7 @@
+##0.0.10
+
+Fix - Apple Pay fixes
+
 ##0.0.9
 
 Added support for Apple Pay integration on iOS.
