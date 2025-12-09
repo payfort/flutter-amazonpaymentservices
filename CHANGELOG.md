@@ -1,3 +1,7 @@
+##0.0.11
+
+Flutter SDK compatibility to version 3.x
+
 ##0.0.10
 
 Fix - Apple Pay fixes
