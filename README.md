@@ -7,7 +7,7 @@ Amazon Payment Service Sdk Flutter package
 Add below lines to your package’s pubspec.yaml file:
 
 ```
-dependencies: flutter_amazonpaymentservices: 0.0.7
+dependencies: flutter_amazonpaymentservices: 0.0.10
 ```
 <br>
 
@@ -106,6 +106,49 @@ Future<void> validateApi() async {
 | merchant_extra4      | Alphanumeric | Extra data sent by merchant. Will be received and sent back as received. Will not be displayed in any report.                                                                                                                                                                      | No        | 250     | JohnSmith                                                             |
 | merchant_extra5      | Alphanumeric | Extra data sent by merchant. Will be received and sent back as received. Will not be displayed in any report.                                                                                                                                                                      | No        | 250     | JohnSmith                                                             |
 
+
+
+## Apple pay
+
+``` js
+
+  try {
+
+    var params = {
+      "displayAmount": '1000', 
+      "merchantIdentifier": "merchant.com.*",
+      "countryCode": 'AE',
+      "currencyCode": 'AED',
+      "supportedNetworks": ['amex', 'visa', 'mastercard'],
+      "transactionDetails": transactionDetails
+    };
+
+    result = await FlutterAmazonpaymentservices.applePay(
+        params,
+        environmentValue == 0 ? EnvironmentType.sandbox : EnvironmentType.production);
+  } on PlatformException catch (e) {
+      if (e.code == "APPLE_PAY_CANCELLED") {
+        _showMyDialog("Apple Pay Cancelled: ", e.details.toString());
+      } else if (e.code == "PAYMENT_FAILED") {
+        _showMyDialog("Apple Pay Failed: ", e.message.toString());
+      } else {
+        _showMyDialog("Apple Pay-Failed: ", e.message.toString());
+      }
+  }
+
+```
+
+### Apple Pay props (ApplePayRequest)
+
+| Attribute            | Type         | Description                                                                                                                                                                                                                                                                        | Mandatory | Maximum | Example                                                               |
+|----------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|---------|-----------------------------------------------------------------------|
+| displayAmount              | Alpha        | The amount to be display on the Apple payment screen                                                                                                                                                                              | Yes       | 10      | 100                                                              |
+| environment                              | `'TEST'`, `'PRODUCTION'`     | Parameter used to determine whether the request is going to be submitted to the test or production environment. |      Yes      |
+| merchantIdentifier | Alphanumeric    | The apple pay merchant identifier created on the apple developer account |      Yes      | 150  | merchant.com.test.integration|
+| countryCode | Alpha | A list of two-letter country codes for limiting payment to cards from specific countries or regions. | Yes | 2 | AE|
+| currencyCode | Alpha | The three-letter ISO 4217 currency code for the payment. | Yes | 3 | AED|
+| supportedNetworks | `object` | Array value of payment options supported on apple payment | Yes |  | `['visa', 'mastercard', 'mada', 'amex']` |
+| transactionDetails | `object` | The request object containing the details for processing the apple payment. | Yes | | `{ amount: '', command: 'PURCHASE', digital_wallet: 'APPLE_PAY', merchant_reference: '', currency: 'AED', language: 'en', customer_email: '', sdk_token: '', customer_ip: '', customer_name: '', phone_number: ''}` |
 
 
 ## License

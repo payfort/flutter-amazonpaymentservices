@@ -5,6 +5,7 @@ class ParamUtils {
   static List<ParamModel> getParanm({bool isShowFraudExtraParam: false}) {
     List<ParamModel> params = List.empty(growable: true);
     params.add(ParamModel(key: "customer_type"));
+    params.add(ParamModel(key: "country_code"));
     params.add(ParamModel(key: "customer_first_name"));
     params.add(ParamModel(key: "customer_middle_initial"));
     params.add(ParamModel(key: "customer_address1"));
@@ -40,6 +41,7 @@ class ParamUtils {
     params.add(ParamModel(key: "phone_number"));
     params.add(ParamModel(key: "settlement_reference"));
     params.add(ParamModel(key: "dynamic_descriptor"));
+    params.add(ParamModel(key: "statement_descriptor"));
     params.add(ParamModel(key: "merchant_extra"));
     params.add(ParamModel(key: "merchant_extra1"));
     params.add(ParamModel(key: "merchant_extra2"));

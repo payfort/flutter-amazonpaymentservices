@@ -1,3 +1,11 @@
+##0.0.10
+
+Fix - Apple Pay fixes
+
+##0.0.9
+
+Added support for Apple Pay integration on iOS.
+
 ##0.0.8
 
 Fix - Build config version bump for APS Android SDK v2.2.1

@@ -3,14 +3,15 @@ PODS:
   - flutter_amazonpaymentservices (0.0.1):
     - Flutter
     - PayFortSDK
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - PayFortSDK (3.1.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_amazonpaymentservices (from `.symlinks/plugins/flutter_amazonpaymentservices/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -21,15 +22,15 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_amazonpaymentservices:
     :path: ".symlinks/plugins/flutter_amazonpaymentservices/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_amazonpaymentservices: d619c5947238ca8f1d7f88033b9c752e42fc08c7
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_amazonpaymentservices: 65a823f0cde190eaa78f1441c73b6c766ac2b899
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   PayFortSDK: a33a8488859d7666b3709f347ebb990697e1d110
 
-PODFILE CHECKSUM: 21b64fbb12492d731c9be90cbe0f2d328bef4b49
+PODFILE CHECKSUM: 6d989b2a230232bcc0a5158aa4c0c4ecbc6046b6
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

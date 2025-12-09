@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:collection';
 
@@ -8,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'environment_type.dart';
 
 class FlutterAmazonpaymentservices {
-  static const MethodChannel _channel = MethodChannel('flutter_amazonpaymentservices');
+  static const MethodChannel _channel =
+      MethodChannel('flutter_amazonpaymentservices');
 
   static Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
@@ -21,12 +21,12 @@ class FlutterAmazonpaymentservices {
   }
 
   static Future<LinkedHashMap<Object?, Object?>> normalPay(
-      Map request,
-      EnvironmentType environmentType, {
-        bool isShowResponsePage = true,
-      }) async {
+    Map request,
+    EnvironmentType environmentType, {
+    bool isShowResponsePage = true,
+  }) async {
     final LinkedHashMap<Object?, Object?> result =
-    await _channel.invokeMethod("normalPay", {
+        await _channel.invokeMethod("normalPay", {
       "isShowResponsePage": isShowResponsePage,
       "environmentType": describeEnum(environmentType),
       "requestParam": request,
@@ -35,9 +35,9 @@ class FlutterAmazonpaymentservices {
   }
 
   static Future<LinkedHashMap<Object?, Object?>> validateApi(
-      Map request,
-      EnvironmentType environmentType,
-      ) async {
+    Map request,
+    EnvironmentType environmentType,
+  ) async {
     final LinkedHashMap<Object?, Object?> result = await _channel.invokeMethod(
         "validateApi", {
       "environmentType": describeEnum(environmentType),
@@ -46,4 +46,14 @@ class FlutterAmazonpaymentservices {
     return result;
   }
 
+  ///  Apple Pay Integration
+  static Future<LinkedHashMap<Object?, Object?>> applePay(
+      Map<String, dynamic> request, EnvironmentType environmentType) async {
+    final LinkedHashMap<Object?, Object?> result =
+        await _channel.invokeMethod("applePay", {
+      "environmentType": describeEnum(environmentType),
+      "requestParam": request,
+    });
+    return result;
+  }
 }

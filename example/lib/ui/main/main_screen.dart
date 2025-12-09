@@ -16,6 +16,10 @@ import 'package:get/route_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../../constant.dart';
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
+import 'dart:io' show Platform;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -126,21 +130,39 @@ class _MainScreen extends State<MainScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
+                const Padding(padding: EdgeInsets.only(left: 10)),
                 Expanded(
                   child: ElevatedButton(
                       onPressed: () {
                         normalPay();
                       },
-                      child: const Text("Normal Pay")),
+                      child: const Text(
+                        "Normal Pay",
+                        style: TextStyle(fontSize: 12),
+                      )),
                 ),
-                const Padding(padding: EdgeInsets.only(right: 10)),
+                const Padding(padding: EdgeInsets.only(right: 8)),
                 Expanded(
                   child: ElevatedButton(
                       onPressed: () {
                         validateApi();
                       },
-                      child: const Text("Validate Api")),
+                      child: const Text("Validate Api",
+                          style: TextStyle(fontSize: 12))),
                 ),
+                const Padding(padding: EdgeInsets.only(right: 8)),
+                // Conditionally render Apple Pay button
+                if (Platform.isIOS) ...[
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          applePay();
+                        },
+                        child: const Text("Apple Pay",
+                            style: TextStyle(fontSize: 12))),
+                  ),
+                  const Padding(padding: EdgeInsets.only(right: 10)),
+                ],
               ],
             ),
           ), //Your widget here,
@@ -294,32 +316,15 @@ class _MainScreen extends State<MainScreen> {
   }
 
   void createToken() async {
-    var deviceId = await FlutterAmazonpaymentservices.getUDID ?? "";
-    var bodyMap = <String, String>{
-      'language': "en",
-      'device_id': deviceId
-    };
-    print("bodyMap $bodyMap");
-    final response = await http.post(
-      Uri.parse(Constant.tokenUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: jsonEncode(bodyMap),
-    );
-
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode >= 200) {
-      TokenModel tokenModel = TokenModel.fromJson(jsonDecode(response.body));
-      setState(() {
-        updateParamList('sdk_token', tokenModel.sdkToken);
-        updateParamList('merchant_reference', tokenModel.sdkToken);
-      });
-    } else {
-      throw Exception('Failed to create token.');
-    }
+    // if (response.statusCode >= 200) {
+    //   TokenModel tokenModel = TokenModel.fromJson(jsonDecode(response.body));
+    //   setState(() {
+    //     updateParamList('sdk_token', tokenModel.sdkToken);
+    //     updateParamList('merchant_reference', tokenModel.sdkToken);
+    //   });
+    // } else {
+    //   throw Exception('Failed to create token.');
+    // }
   }
 
   Future<bool?> gettext() async {}
@@ -349,5 +354,47 @@ class _MainScreen extends State<MainScreen> {
         );
       },
     );
+  }
+
+  Future<void> applePay() async {
+    var result;
+    var requestParam = {};
+    paramList!.forEach((e) => e.controller!.text.isNotEmpty
+        ? requestParam[e.key ?? ""] = e.controller!.text
+        : "");
+
+    final transactionDetails = Map<String, dynamic>.from(requestParam);
+
+    // Remove 'country_code' from the transaction details, since its required only for Apple pay setup.
+    transactionDetails.remove('country_code');
+
+    var params = {
+      "displayAmount": requestParam['amount'], // Ensure it's a string
+      "merchantIdentifier": "merchant.com.",
+      'countryCode': requestParam['country_code'],
+      'currencyCode': requestParam['currency'],
+      'supportedNetworks': ['amex', 'visa', 'mastercard'],
+      'transactionDetails': transactionDetails
+    };
+
+    try {
+      result = await FlutterAmazonpaymentservices.applePay(
+          params,
+          environmentValue == 0
+              ? EnvironmentType.sandbox
+              : EnvironmentType.production);
+    } on PlatformException catch (e) {
+      if (e.code == "APPLE_PAY_CANCELLED") {
+        _showMyDialog("Apple Pay Cancelled: ", e.details.toString());
+      } else if (e.code == "PAYMENT_FAILED") {
+        _showMyDialog("Apple Pay Failed: ", e.message.toString());
+      } else {
+        _showMyDialog("Apple Pay-Failed: ", e.message.toString());
+      }
+      Clipboard.setData(ClipboardData(text: e.details.toString()));
+      return;
+    }
+    if (!mounted) return;
+    _showMyDialog("success", result.toString());
   }
 }
