@@ -53,29 +53,10 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         methodChannel = new MethodChannel(binding.getBinaryMessenger(), METHOD_CHANNEL_KEY);
         methodChannel.setMethodCallHandler(this);
-
     }
 
-    public static void registerWith(PluginRegistry.Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), METHOD_CHANNEL_KEY);
-        FlutterAmazonpaymentservicesPlugin handler = new FlutterAmazonpaymentservicesPlugin();
-        handler.methodChannel = channel;
-        activity = registrar.activity();
-        channel.setMethodCallHandler(handler);
 
-        registrar.addActivityResultListener((requestCode, resultCode, data) -> {
-            if (requestCode == PAYFORT_REQUEST_CODE )
-                if(data!=null && resultCode == RESULT_OK)
-                    fortCallback.onActivityResult(requestCode, resultCode, data);
-                else{
-                    Intent intent = new Intent();
-                    intent.putExtra("","");
-                    fortCallback.onActivityResult(requestCode, resultCode, intent);
-                }
-            return true;
-        });
 
-    }
 
 
     @Override
