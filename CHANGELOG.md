@@ -1,3 +1,7 @@
+##0.0.12
+
+Fix for Flutter SDK compatibility to version 3.x
+
 ##0.0.11
 
 Flutter SDK compatibility to version 3.x
