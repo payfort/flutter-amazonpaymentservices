@@ -95,8 +95,6 @@ public class SwiftFlutterAmazonpaymentservicesPlugin: NSObject, FlutterPlugin {
         payFortController = PayFortController.init(enviroment: .production)
       }
 
-      print("Received Apple Pay requestParam: \(requestParam)") // Debugging output
-
       guard let amount = requestParam["displayAmount"] as? String,
           let countryCode = requestParam["countryCode"] as? String,
           let currencyCode = requestParam["currencyCode"] as? String,
@@ -176,8 +174,6 @@ extension SwiftFlutterAmazonpaymentservicesPlugin: PKPaymentAuthorizationViewCon
             return
         }
 
-        print("Apple Pay Token: \(paymentToken)")
-
         if (payment.token.paymentData.count != 0) {
             
           // Call PayFort SDK to process the Apple Pay payment
@@ -187,9 +183,6 @@ extension SwiftFlutterAmazonpaymentservicesPlugin: PKPaymentAuthorizationViewCon
               currentViewController: ViewHelper.visibleViewController()
           ) { (requestDic, responseDic) in
               print("----Success-----")
-              print("Request: \(requestDic)")
-              print("Response: \(responseDic)")
-
               // Only call completion(.success) once here
               completion(.success)
 
@@ -198,9 +191,6 @@ extension SwiftFlutterAmazonpaymentservicesPlugin: PKPaymentAuthorizationViewCon
 
           } faild: { (requestDic, responseDic, message) in
               print("----Failed-----")
-              print("Request: \(requestDic)")
-              print("Response: \(responseDic)")
-              print("Message: \(message)")
               // Call failure in Apple Pay authorization
               completion(.failure)
               // Send error response to Flutter
