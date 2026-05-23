@@ -369,7 +369,10 @@ class _MainScreen extends State<MainScreen> {
     transactionDetails.remove('country_code');
 
     var params = {
-      "displayAmount": requestParam['amount'], // Ensure it's a string
+      "paymentSummaryItems": [
+        {"label": "Merchant Order", "amount": requestParam['amount']},
+        {"label": "Your Merchant Name", "amount": requestParam['amount']},
+      ],
       "merchantIdentifier": "merchant.com.",
       'countryCode': requestParam['country_code'],
       'currencyCode': requestParam['currency'],

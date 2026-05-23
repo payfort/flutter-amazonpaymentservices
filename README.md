@@ -110,12 +110,17 @@ Future<void> validateApi() async {
 
 ## Apple pay
 
+Apple Pay requires payment summary items that clearly identify who the payment is going to, per [Apple's Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/apple-pay). Pass one or more entries in `paymentSummaryItems` — a single charge is just an array with one item.
+
 ``` js
 
   try {
 
     var params = {
-      "displayAmount": '1000', 
+      "paymentSummaryItems": [
+        {"label": "Merchant Name Item", "amount": "100.00"},
+        {"label": "Merchant Name", "amount": "100.00"},
+      ],
       "merchantIdentifier": "merchant.com.*",
       "countryCode": 'AE',
       "currencyCode": 'AED',
@@ -138,11 +143,19 @@ Future<void> validateApi() async {
 
 ```
 
+Single line item example:
+
+``` js
+"paymentSummaryItems": [
+  {"label": "Merchant Name", "amount": "100.00"},
+],
+```
+
 ### Apple Pay props (ApplePayRequest)
 
 | Attribute            | Type         | Description                                                                                                                                                                                                                                                                        | Mandatory | Maximum | Example                                                               |
 |----------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|---------|-----------------------------------------------------------------------|
-| displayAmount              | Alpha        | The amount to be display on the Apple payment screen                                                                                                                                                                              | Yes       | 10      | 100                                                              |
+| paymentSummaryItems  | `array`      | Charges shown on the Apple Pay sheet. Each entry requires `label` (payee or item description) and `amount`. The last item is typically the merchant total. For a single charge, pass an array with one entry. | Yes       |         | `[{"label": "Merchant Name Items", "amount": "100.00"}, {"label": "Merchant Name", "amount": "100.00"}]` |
 | environment                              | `'TEST'`, `'PRODUCTION'`     | Parameter used to determine whether the request is going to be submitted to the test or production environment. |      Yes      |
 | merchantIdentifier | Alphanumeric    | The apple pay merchant identifier created on the apple developer account |      Yes      | 150  | merchant.com.test.integration|
 | countryCode | Alpha | A list of two-letter country codes for limiting payment to cards from specific countries or regions. | Yes | 2 | AE|

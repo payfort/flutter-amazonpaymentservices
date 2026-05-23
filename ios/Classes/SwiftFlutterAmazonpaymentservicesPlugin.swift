@@ -95,12 +95,20 @@ public class SwiftFlutterAmazonpaymentservicesPlugin: NSObject, FlutterPlugin {
         payFortController = PayFortController.init(enviroment: .production)
       }
 
-      guard let amount = requestParam["displayAmount"] as? String,
-          let countryCode = requestParam["countryCode"] as? String,
+      guard let countryCode = requestParam["countryCode"] as? String,
           let currencyCode = requestParam["currencyCode"] as? String,
           let supportedNetworks = requestParam["supportedNetworks"] as? [String],
           let merchantId = requestParam["merchantIdentifier"] as? String else {
           result(FlutterError(code: "INVALID_PARAMETERS", message: "Missing required Apple Pay parameters", details: requestParam))
+          return
+      }
+
+      guard let paymentSummaryItems = buildPaymentSummaryItems(from: requestParam),
+          !paymentSummaryItems.isEmpty else {
+          result(FlutterError(
+              code: "INVALID_PARAMETERS",
+              message: "Missing paymentSummaryItems. Each entry requires label and amount.",
+              details: requestParam))
           return
       }
 
@@ -132,9 +140,7 @@ public class SwiftFlutterAmazonpaymentservicesPlugin: NSObject, FlutterPlugin {
           }
       }
 
-      paymentRequest.paymentSummaryItems = [
-          PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(string: amount))
-      ]
+      paymentRequest.paymentSummaryItems = paymentSummaryItems
 
       guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
           result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "No view controller available", details: nil))
@@ -149,6 +155,32 @@ public class SwiftFlutterAmazonpaymentservicesPlugin: NSObject, FlutterPlugin {
           result(FlutterError(code: "APPLE_PAY_UNAVAILABLE", message: "Unable to present Apple Pay", details: nil))
       }
 
+  }
+
+  private func buildPaymentSummaryItems(from requestParam: [String: Any]) -> [PKPaymentSummaryItem]? {
+      guard let summaryItems = requestParam["paymentSummaryItems"] as? [[String: Any]] else {
+          return nil
+      }
+
+      let items = summaryItems.compactMap { item -> PKPaymentSummaryItem? in
+          guard let label = item["label"] as? String, !label.isEmpty,
+              let amount = parseAmount(from: item["amount"]) else {
+              return nil
+          }
+          return PKPaymentSummaryItem(label: label, amount: amount)
+      }
+
+      return items.isEmpty ? nil : items
+  }
+
+  private func parseAmount(from value: Any?) -> NSDecimalNumber? {
+      if let amount = value as? String, !amount.isEmpty {
+          return NSDecimalNumber(string: amount)
+      }
+      if let amount = value as? NSNumber {
+          return NSDecimalNumber(decimal: amount.decimalValue)
+      }
+      return nil
   }
 }
 
