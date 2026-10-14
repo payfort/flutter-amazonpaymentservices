@@ -27,7 +27,7 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'com.amazon.flutter_amazonpaymentservices'
-    compileSdkVersion 34
+    compileSdkVersion 36
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11

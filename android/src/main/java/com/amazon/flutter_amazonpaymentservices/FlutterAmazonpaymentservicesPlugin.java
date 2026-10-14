@@ -52,7 +52,7 @@ public class FlutterAmazonpaymentservicesPlugin implements FlutterPlugin, Method
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         methodChannel = new MethodChannel(binding.getBinaryMessenger(), METHOD_CHANNEL_KEY);
         methodChannel.setMethodCallHandler(this);
-
+        PayfortSystemBarFix.install(binding.getApplicationContext());
     }
 
     // Deprecated v1 embedding registerWith method removed for compatibility with new Android Gradle plugin
